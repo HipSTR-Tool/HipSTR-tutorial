@@ -79,4 +79,14 @@ On a standard CPU, this should take 3-4 minutes to run.
 
 
 ## Interpreting HipSTR's output
+###NA12891
+`./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3`
+![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12891.png)
 
+###NA12892
+`./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12892 3`
+![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12892.png)
+
+###NA12878
+`./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12878 3`
+![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12878.png)
