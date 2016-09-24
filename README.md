@@ -79,7 +79,9 @@ On a standard CPU, this should take 3-4 minutes to run.
 
 
 ## Interpreting HipSTR's output
-To help understand HipSTR's output, lets examine the VCF information for STR named GATA27E01. If you recall from above, GATA27E01 has the following information our region file: ```chr1	13784267	13784306	4	10	GATA27E01```
+To help understand HipSTR's output, lets examine the VCF information for STR named GATA27E01. If you recall from above, GATA27E01 has the following information our region file: 
+
+    chr1	13784267	13784306	4	10	GATA27E01
 
 We'll use [VCFTools](https://vcftools.github.io/man_latest.html) to extract the information for this STR from our VCF file and we'll then use [datamash](https://www.gnu.org/software/datamash/) to convert each column into its own line:
 
