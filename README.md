@@ -1,5 +1,5 @@
 # HipSTR-tutorial
-Simple tutorial demonstrating how to run HipSTR with human WGS data
+Simple tutorial demonstrating how to run HipSTR with human WGS data and interpret the output
 
 ## Introduction
 In this tutorial, we'll be genotyping 599 STRs that are part of the Marshfield panel of markers. These markers are some of the most polymorphic STRs in the human genome. We'll be using whole-genome sequencing data for NA12878, NA12891 and NA12892, a [trio](https://catalog.coriell.org/0/Sections/Collections/NIGMS/CEPHFamiliesDetail.aspx?PgId=441&fam=1463&) of individuals that is widely analyzed in genomics.
@@ -110,17 +110,29 @@ What does this tell us?
 7. There are very few reads with indels in the flanking sequences (DFLANKINDEL = 0, 1, and 0 for NA12878, NA12891 and NA12892)
 8. The high posterior confidences (Q), combined with the low stutter and flanking indel frequencies, make us very confident in the reported genotypes!
 
-This is great, but what is HipSTR doing under the hood? And how can we visualize these results to gain confidence? We'll use the output from the **--viz-out** HipSTR option and a tool provided in the HipSTR directory called **VizAlnPdf**
+This is great, but what is HipSTR doing under the hood? And how can we visualize these results to gain confidence? 
 
+Below, we'll use the output from the **--viz-out** HipSTR option (*trio.marshfield.no_snps.html.gz*) and a tool provided in the HipSTR directory called **VizAlnPdf**. This tool analyzes the html file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype.
 
 ###NA12891
-`HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3`
+Visualizing the maximum likelihood alignments for NA12891 is easy: 
+    
+    HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3
+This will generate a PDF file *viz_NA12891.pdf* containing maximum likelihood alignments for every *3*rd read.
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12891.png)
-
+The first group of reads provides strong support for the reference allele in this sample. The second group of reads, which contain insertions highlighted in red, stronly support the +4 bp allele. Internally, HipSTR disentangles which read belongs to each haplotype as is diplayed in the PDF.
 ###NA12892
-`HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12892 3`
-![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12892.png)
+Viewining the alignments for NA12892 is just as easy:
 
+    HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12892 3
+![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12892.png)
+We again see that the reads strongly support the -12/-8 genotype determined for this sample
 ###NA12878
-`HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12878 3`
+Lastly, we can visualize NA12878's maximum likelihood alignments:
+
+    HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12878 3
+
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12878.png)
+The first group of reads support the -8bp allele, while the second groups supports the +4bp allele.
+
+In summary, **VizAlnPdf** provides a powerful way to interpret HipSTR's output and gain confidence in corresponding genotypes.
