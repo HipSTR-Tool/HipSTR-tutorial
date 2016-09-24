@@ -79,4 +79,4 @@ On a standard CPU, this should take 3-4 minutes to run.
 
 
 ## Interpreting HipSTR's output
-Now that we've generated calls for these samples, let's try to understand how we can interpret HipSTR's output.
+
