@@ -79,6 +79,27 @@ On a standard CPU, this should take 3-4 minutes to run.
 
 
 ## Interpreting HipSTR's output
+To help understand HipSTR's output, lets examine the VCF information for STR named GATA27E01. If you recall from above, GATA27E01 has the following information our region file: ```chr1	13784267	13784306	4	10	GATA27E01```
+
+We'll use [VCFTools](https://vcftools.github.io/man_latest.html) to extract the information for this STR from our VCF file and we'll then use [datamash](https://www.gnu.org/software/datamash/) to convert each column into its own line:
+
+    vcftools --gzvcf trio.marshfield.no_snps.vcf.gz --snp GATA27E01 --recode --recode-INFO-all --stdout | tail -n 2 | datamash transpose
+This produces output that looks something like the following:
+```
+#CHROM	chr1
+POS	13784267
+ID	GATA27E01
+REF	GATAGATAGATAGATAGATAGATAGATAGATAGATAGATA
+ALT	GATAGATAGATAGATAGATAGATAGATA,GATAGATAGATAGATAGATAGATAGATAGATA,GATAGATAGATAGATAGATAGATAGATAGATAGATAGATAGATA
+QUAL	.
+FILTER	.
+INFO	INFRAME_PGEOM=0.950;INFRAME_UP=0.050;INFRAME_DOWN=0.050;OUTFRAME_PGEOM=0.950;OUTFRAME_UP=0.010;OUTFRAME_DOWN=0.010;START=13784267;END=13784306;PERIOD=4;NSKIP=0;NFILT=0;BPDIFFS=-12,-8,4;DP=230;DSNP=0;DFILT=0;DSTUTTER=1;DFLANKINDEL=1;AN=6;REFAC=1;AC=1,2,2
+FORMAT	GT:GB:Q:PQ:DP:DSNP:DFILT:DSTUTTER:DFLANKINDEL:PDP:PSNP:BPDOSE:GLDIFF:BQ:ALLREADS:MALLREADS
+NA12878	2|3:-8|4:1.000:0.500:84:0:0:0:0:41.000|43.000:0|0:-4.000:52.318:1.000:-999|14;-8|31;4|39:-8|37;4|39
+NA12891	0|3:0|4:1.000:0.500:64:0:0:1:1:30.426|33.574:0|0:4.000:21.905:1.000:-999|9;0|28;4|27:0|27;4|27;8|1
+NA12892	1|2:-12|-8:1.000:0.500:82:0:0:0:0:40.039|41.961:0|0:-20.000:27.724:1.000:-999|9;-12|34;-8|39:-12|38;-8|41
+```
+
 ###NA12891
 `./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3`
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12891.png)
