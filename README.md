@@ -75,4 +75,8 @@ Now that we have the required input files, let's run HipSTR. We can analyze all 
          --viz-out   trio.marshfield.no_snps.html.gz
          --min-reads 25 --def-stutter-model --use-all-reads --read-qual-trim \#
 ```
+On a standard CPU, this should take 3-4 minutes to run. 
 
+
+## Interpreting HipSTR's output
+Now that we've generated calls for these samples, let's try to understand how we can interpret HipSTR's output.
