@@ -99,15 +99,28 @@ NA12878	2|3:-8|4:1.000:0.500:84:0:0:0:0:41.000|43.000:0|0:-4.000:52.318:1.000:-9
 NA12891	0|3:0|4:1.000:0.500:64:0:0:1:1:30.426|33.574:0|0:4.000:21.905:1.000:-999|9;0|28;4|27:0|27;4|27;8|1
 NA12892	1|2:-12|-8:1.000:0.500:82:0:0:0:0:40.039|41.961:0|0:-20.000:27.724:1.000:-999|9;-12|34;-8|39:-12|38;-8|41
 ```
+What does this tell us?
+
+1. HipSTR detected 3 additional present alleles (ALT) that are -12, -8 and +4 bp in length relative to the ref allele (INFO:BPDIFFS).
+2. The genotype (GT) for NA12891 suggests that he carries the ref allele and a 4 bp insertion, with high confidence (Q=1.0=100% posterior)
+3. The genotype (GT) for NA12892 suggests that she carries a 12 bp deletion and an 8 bp deletion, with high confidence (Q=1.0)
+4. The genotype (GT) for NA12878 suggests that she carries an 8 bp deletion and a 4 bp insertion, with high confidence (Q=1.0)
+5. None of the genotypes are phased (PQ=0.5) because HipSTR was not run with the --snp-vcf option and no samples have phase-informative reads (DSNP=0)
+6. There are very few reads with stutter artifacts (DSTUTTER = 0, 1, and 0 for NA12878, NA12891 and NA12892)
+7. There are very few reads with indels in the flanking sequences (DFLANKINDEL = 0, 1, and 0 for NA12878, NA12891 and NA12892)
+8. The high posterior confidences (Q), combined with the low stutter and flanking indel frequencies, make us very confident in the reported genotypes!
+
+This is great, but what is HipSTR doing under the hood? And how can we visualize these results to gain confidence? We'll use the output from the **--viz-out** HipSTR option and a tool provided in the HipSTR directory called **VizAlnPdf**
+
 
 ###NA12891
-`./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3`
+`HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3`
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12891.png)
 
 ###NA12892
-`./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12892 3`
+`HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12892 3`
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12892.png)
 
 ###NA12878
-`./VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12878 3`
+`HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12878 3`
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12878.png)
