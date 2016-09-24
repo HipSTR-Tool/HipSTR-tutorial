@@ -64,8 +64,15 @@ Let's take a look at the sample information in these BAMs:
 Each of the 12 BAM files has a single read group, corresponding to 1 of 3 samples: NA12878, NA12891 or NA12892. HipSTR uses the **SM** tags to determine what sample each read comes from and uses the **LB** tag to determine what sequencing library each read comes from.
 
 ## Running HipSTR
-Now that we have the required input files, let's run HipSTR. We can analyze all of the BAMs jointly to genotype the 599 STRs as follows:
+Now that we have the required input files, let's run HipSTR. We can analyze all of the BAMs jointly to genotype all 3 samples at the 599 STRs as follows:
 
-    HipSTR/HipSTR --str-vcf trio.marshfield.no_snps.vcf.gz --log trio.marshfield.no_snps.log --bams bams/ERR194147.bam,bams/ERR194160.bam,bams/ERR194161.bam,bams/SRR826427.bam,bams/SRR826428.bam,bams/SRR826448.bam,bams/SRR826463.bam,bams/SRR826465.bam,bams/SRR826467.bam,bams/SRR826469.bam,bams/SRR826471.bam,bams/SRR826473.bam --regions regions.bed --fasta fasta/ --min-reads 25 --def-stutter-model --use-all-reads --viz-out trio.marshfield.no_snps.html.gz --read-qual-trim \#
-
+```
+./HipSTR --bams      bams/ERR194147.bam,bams/ERR194160.bam,bams/ERR194161.bam,bams/SRR826427.bam,bams/SRR826428.bam,bams/SRR826448.bam,bams/SRR826463.bam,bams/SRR826465.bam,bams/SRR826467.bam,bams/SRR826469.bam,bams/SRR826471.bam,bams/SRR826473.bam
+         --fasta     fasta/
+         --regions   regions.bed
+         --str-vcf   trio.marshfield.no_snps.vcf.gz
+         --log       trio.marshfield.no_snps.log
+         --viz-out   trio.marshfield.no_snps.html.gz
+         --min-reads 25 --def-stutter-model --use-all-reads --read-qual-trim \#
+```
 
