@@ -73,9 +73,9 @@ Now that we have the required input files, let's run HipSTR. We can analyze all 
          --str-vcf   trio.marshfield.no_snps.vcf.gz
          --log       trio.marshfield.no_snps.log
          --viz-out   trio.marshfield.no_snps.html.gz
-         --min-reads 25 --def-stutter-model --use-all-reads --read-qual-trim \#
+         --min-reads 25 --def-stutter-model --read-qual-trim \#
 ```
-On a standard CPU, this should take 3-4 minutes to run. 
+This will generate a bgzipped VCF file (*trio.marshfield.no_snps.vcf.gz*) containing STR genotypes, as well as a bgzipped HTML file (*trio.marshfield.no_snps.html.gz*) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. 
 
 
 ## Interpreting HipSTR's output
@@ -114,7 +114,9 @@ What does this tell us?
 
 This is great, but what is HipSTR doing under the hood? And how can we visualize these results to gain confidence? 
 
-Below, we'll use the output from the **--viz-out** HipSTR option (*trio.marshfield.no_snps.html.gz*) and a tool provided in the HipSTR directory called **VizAlnPdf**. This tool analyzes the html file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype.
+Below, we'll use the output from the **--viz-out** HipSTR option (*trio.marshfield.no_snps.html.gz*) and a tool provided in the HipSTR directory called **VizAlnPdf**. This tool analyzes the html file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype. Before we can do so, we need to index the HTML file using [tabix](http://www.htslib.org/doc/tabix.html):
+
+    tabix -p vcf trio.marshfield.no_snps.html.gz
 
 ###NA12891
 Visualizing the maximum likelihood alignments for NA12891 is easy: 
@@ -138,3 +140,6 @@ Lastly, we can visualize NA12878's maximum likelihood alignments:
 The first group of reads support the -8bp allele, while the second groups supports the +4bp allele.
 
 In summary, **VizAlnPdf** provides a powerful way to interpret HipSTR's output and gain confidence in corresponding genotypes.
+
+## Conclusion
+This tutorial provided a brief overview of how to run HipSTR on a simple dataset and interpret the results. For more information, please refer to the main HipSTR [page](https://hipstr-tool.github.io/HipSTR/) or send questions or issues to hipstrtool@gmail.edu  
