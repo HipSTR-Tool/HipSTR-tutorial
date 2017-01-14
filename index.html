@@ -112,11 +112,11 @@ chr1    16540224    16540267    4   11  TTTA063
          --regions   regions.bed
          --str-vcf   trio.marshfield.no_snps.vcf.gz
          --log       trio.marshfield.no_snps.log
-         --viz-out   trio.marshfield.no_snps.html.gz
+         --viz-out   trio.marshfield.no_snps.viz.gz
          --min-reads 25 --def-stutter-model --read-qual-trim \#
 </code></pre>
 
-<p>This will generate a bgzipped VCF file (<em>trio.marshfield.no_snps.vcf.gz</em>) containing STR genotypes, as well as a bgzipped HTML file (<em>trio.marshfield.no_snps.html.gz</em>) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. </p>
+<p>This will generate a bgzipped VCF file (<em>trio.marshfield.no_snps.vcf.gz</em>) containing STR genotypes, as well as a compressed file (<em>trio.marshfield.no_snps.viz.gz</em>) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. </p>
 
 <h2>
 <a id="interpreting-hipstrs-output" class="anchor" href="#interpreting-hipstrs-output" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interpreting HipSTR's output</h2>
@@ -162,9 +162,9 @@ NA12892 1|2:-12|-8:1.000:0.500:82:0:0:0:0:40.039|41.961:0|0:-20.000:27.724:1.000
 
 <p>This is great, but what is HipSTR doing under the hood? And how can we visualize these results to gain confidence? </p>
 
-<p>Below, we'll use the output from the <strong>--viz-out</strong> HipSTR option (<em>trio.marshfield.no_snps.html.gz</em>) and a tool provided in the HipSTR directory called <strong>VizAlnPdf</strong>. This tool analyzes the html file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype. Before we can do so, we need to index the HTML file using <a href="http://www.htslib.org/doc/tabix.html">tabix</a>:</p>
+<p>Below, we'll use the output from the <strong>--viz-out</strong> HipSTR option (<em>trio.marshfield.no_snps.viz.gz</em>) and a tool provided in the HipSTR directory called <strong>VizAlnPdf</strong>. This tool analyzes the compressed visualization file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype. Before we can do so, we need to index the compressed file using <a href="http://www.htslib.org/doc/tabix.html">tabix</a>:</p>
 
-<pre><code>tabix -p vcf trio.marshfield.no_snps.html.gz
+<pre><code>tabix -p vcf trio.marshfield.no_snps.viz.gz
 </code></pre>
 
 <h3>
@@ -172,7 +172,7 @@ NA12892 1|2:-12|-8:1.000:0.500:82:0:0:0:0:40.039|41.961:0|0:-20.000:27.724:1.000
 
 <p>Visualizing the maximum likelihood alignments for NA12891 is easy: </p>
 
-<pre><code>HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12891 3
+<pre><code>HipSTR/VizAlnPdf trio.marshfield.no_snps.viz.gz chr1 13784267 viz_NA12891 3
 </code></pre>
 
 <p>This will generate a PDF file <em>viz_NA12891.pdf</em> containing maximum likelihood alignments for every <em>3</em>rd read.
@@ -184,7 +184,7 @@ The first group of reads provides strong support for the reference allele in thi
 
 <p>Viewining the alignments for NA12892 is just as easy:</p>
 
-<pre><code>HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12892 3
+<pre><code>HipSTR/VizAlnPdf trio.marshfield.no_snps.viz.gz chr1 13784267 viz_NA12892 3
 </code></pre>
 
 <p><img src="https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12892.png" alt="NA12891!">
@@ -195,7 +195,7 @@ We again see that the reads strongly support the -12/-8 genotype determined for 
 
 <p>Lastly, we can visualize NA12878's maximum likelihood alignments:</p>
 
-<pre><code>HipSTR/VizAlnPdf trio.marshfield.no_snps.html.gz chr1 13784267 viz_NA12878 3
+<pre><code>HipSTR/VizAlnPdf trio.marshfield.no_snps.viz.gz chr1 13784267 viz_NA12878 3
 </code></pre>
 
 <p><img src="https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12878.png" alt="NA12891!">
