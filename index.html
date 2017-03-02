@@ -47,20 +47,24 @@ cd HipSTR-tutorial
 
 <p>Next, let's download HipSTR from github and build it: </p>
 
-<pre><code>git clone --recursive https://github.com/tfwillems/HipSTR.git
+<pre><code>git clone https://github.com/tfwillems/HipSTR.git
 cd HipSTR
 make
 cd ../
 </code></pre>
 
-<p>The last source of input we'll need are FASTA files for the human genome.
-Since our BAM alignments are relative to the hg19 reference genome, we'll
-download this version of the human reference:</p>
+<p>The last source of input we'll need are FASTA files for the human genome. 
+	Since our BAM alignments are relative to the hg19 reference genome, 
+	we'll download the sequences for its chromosomes. HipSTR requires a 
+	single FASTA file, so we concatenate each chromosome into a single file 
+	and index it using [samtools](http://www.htslib.org/):</p>
 
 <pre><code>mkdir fasta
 cd fasta
 wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz
 tar -xzvf chromFa.tar.gz
+cat chr*.fa > all_chroms.fa
+samtools faidx all_chroms.fa
 cd ../
 </code></pre>
 
@@ -108,20 +112,20 @@ chr1    16540224    16540267    4   11  TTTA063
 <p>Now that we have the required input files, let's run HipSTR. We can analyze all of the BAMs jointly to genotype all 3 samples at the 599 STRs as follows:</p>
 
 <pre><code>./HipSTR --bams      bams/ERR194147.bam,bams/ERR194160.bam,bams/ERR194161.bam,bams/SRR826427.bam,bams/SRR826428.bam,bams/SRR826448.bam,bams/SRR826463.bam,bams/SRR826465.bam,bams/SRR826467.bam,bams/SRR826469.bam,bams/SRR826471.bam,bams/SRR826473.bam
-         --fasta     fasta/
+         --fasta     fasta/all_chroms.fa
          --regions   regions.bed
          --str-vcf   trio.marshfield.no_snps.vcf.gz
          --log       trio.marshfield.no_snps.log
          --viz-out   trio.marshfield.no_snps.viz.gz
-         --min-reads 25 --def-stutter-model --read-qual-trim \#
+         --min-reads 25 --def-stutter-model
 </code></pre>
 
-<p>This will generate a bgzipped VCF file (<em>trio.marshfield.no_snps.vcf.gz</em>) containing STR genotypes, as well as a compressed file (<em>trio.marshfield.no_snps.viz.gz</em>) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. </p>
+<p>This will generate a bgzipped VCF file (<em>trio.marshfield.no_snps.vcf.gz</em>) containing STR genotypes, as well as a compressed file (<em>trio.marshfield.no_snps.viz.gz</em>) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. We've opted to use the **--def-stutter-model** option as three samples is too few to accurately infer stutter models. </p>
 
 <h2>
 <a id="interpreting-hipstrs-output" class="anchor" href="#interpreting-hipstrs-output" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interpreting HipSTR's output</h2>
 
-<p>To help understand HipSTR's output, lets examine the VCF information for STR named GATA27E01. If you recall from above, GATA27E01 has the following information our region file: </p>
+<p>To help understand HipSTR's output, lets examine the VCF information for the STR named GATA27E01. If you recall from above, GATA27E01 has the following information in our region file: </p>
 
 <pre><code>chr1    13784267    13784306    4   10  GATA27E01
 </code></pre>
