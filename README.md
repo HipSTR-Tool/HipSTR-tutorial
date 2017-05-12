@@ -142,4 +142,4 @@ The first group of reads support the -8bp allele, while the second groups suppor
 In summary, **VizAlnPdf** provides a powerful way to interpret HipSTR's output and gain confidence in corresponding genotypes.
 
 ## Conclusion
-This tutorial provided a brief overview of how to run HipSTR on a simple dataset and interpret the results. For more information, please refer to the main HipSTR [page](https://hipstr-tool.github.io/HipSTR/) or send questions or issues to hipstrtool@gmail.edu  
+This tutorial provided a brief overview of how to run HipSTR on a simple dataset and interpret the results. For more information, please refer to the main HipSTR [page](https://hipstr-tool.github.io/HipSTR/) or send questions or issues to hipstrtool@gmail.com  
