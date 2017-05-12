@@ -70,12 +70,12 @@ Now that we have the required input files, let's run HipSTR. We can analyze all 
 ./HipSTR/HipSTR --bams      bams/ERR194147.bam,bams/ERR194160.bam,bams/ERR194161.bam,bams/SRR826427.bam,bams/SRR826428.bam,bams/SRR826448.bam,bams/SRR826463.bam,bams/SRR826465.bam,bams/SRR826467.bam,bams/SRR826469.bam,bams/SRR826471.bam,bams/SRR826473.bam
                 --fasta     fasta/all_chroms.fa
                 --regions   regions.bed
-                --str-vcf   trio.marshfield.no_snps.vcf.gz
-                --log       trio.marshfield.no_snps.log
-                --viz-out   trio.marshfield.no_snps.viz.gz
+                --str-vcf   trio.marshfield.vcf.gz
+                --log       trio.marshfield.log
+                --viz-out   trio.marshfield.viz.gz
                 --min-reads 25 --def-stutter-model
 ```
-This will generate a bgzipped VCF file (*trio.marshfield.no_snps.vcf.gz*) containing STR genotypes, as well as a compressed file (*trio.marshfield.no_snps.viz.gz*) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. We've opted to use the **--def-stutter-model** option as three samples is too few to accurately infer stutter models.
+This will generate a bgzipped VCF file (*trio.marshfield.vcf.gz*) containing STR genotypes, as well as a compressed file (*trio.marshfield.viz.gz*) we'll later use to visualize the results. On a standard CPU, this should take 2-3 minutes to run. We've opted to use the **--def-stutter-model** option as three samples is too few to accurately infer stutter models.
 
 
 ## Interpreting HipSTR's output
@@ -85,7 +85,7 @@ To help understand HipSTR's output, lets examine the VCF information for the STR
 
 We'll use [VCFTools](https://vcftools.github.io/man_latest.html) to extract the information for this STR from our VCF file and we'll then use [datamash](https://www.gnu.org/software/datamash/) to convert each column into its own line:
 
-    vcftools --gzvcf trio.marshfield.no_snps.vcf.gz --snp GATA27E01 --recode --recode-INFO-all --stdout | tail -n 2 | datamash transpose
+    vcftools --gzvcf trio.marshfield.vcf.gz --snp GATA27E01 --recode --recode-INFO-all --stdout | tail -n 2 | datamash transpose
 This produces output that looks something like the following:
 ```
 #CHROM	chr1
@@ -114,14 +114,14 @@ What does this tell us?
 
 This is great, but what is HipSTR doing under the hood? And how can we visualize these results to gain confidence? 
 
-Below, we'll use the output from the **--viz-out** HipSTR option (*trio.marshfield.no_snps.viz.gz*) and a tool provided in the HipSTR directory called **VizAlnPdf**. This tool analyzes the compressed visualization file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype. Before we can do so, we need to index the compressed file using [tabix](http://www.htslib.org/doc/tabix.html):
+Below, we'll use the output from the **--viz-out** HipSTR option (*trio.marshfield.viz.gz*) and a tool provided in the HipSTR directory called **VizAlnPdf**. This tool analyzes the compressed visualization file to generate PDFs of HipSTR's maximum-likelihood (ML) alignments. These ML alignments indicate the arrangement of all of a sample's reads relative to its ML genotype. Before we can do so, we need to index the compressed file using [tabix](http://www.htslib.org/doc/tabix.html):
 
-    tabix -p vcf trio.marshfield.no_snps.viz.gz
+    tabix -p vcf trio.marshfield.viz.gz
 
 ### NA12891
 Visualizing the maximum likelihood alignments for NA12891 is easy: 
     
-    HipSTR/VizAlnPdf trio.marshfield.no_snps.viz.gz chr1 13784267 NA12891 viz_NA12891 3
+    HipSTR/VizAlnPdf trio.marshfield.viz.gz chr1 13784267 NA12891 viz_NA12891 3
 This will generate a PDF file *viz_NA12891.pdf* containing maximum likelihood alignments for every *3*rd read.
 ![NA12891!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12891.png)
 The first group of reads provides strong support for the reference allele in this sample. The second group of reads, which contain insertions highlighted in red, stronly support the +4 bp allele. Internally, HipSTR disentangles which read belongs to each haplotype as is diplayed in the PDF.
@@ -129,14 +129,14 @@ The first group of reads provides strong support for the reference allele in thi
 ### NA12892
 Viewing the alignments for NA12892 is just as easy:
 
-    HipSTR/VizAlnPdf trio.marshfield.no_snps.viz.gz chr1 13784267 NA12892 viz_NA12892 3
+    HipSTR/VizAlnPdf trio.marshfield.viz.gz chr1 13784267 NA12892 viz_NA12892 3
 ![NA12892!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12892.png)
 We again see that the reads strongly support the -12/-8 genotype determined for this sample
 
 ### NA12878
 Lastly, we can visualize NA12878's maximum likelihood alignments:
 
-    HipSTR/VizAlnPdf trio.marshfield.no_snps.viz.gz chr1 13784267 NA12878 viz_NA12878 3
+    HipSTR/VizAlnPdf trio.marshfield.viz.gz chr1 13784267 NA12878 viz_NA12878 3
 
 ![NA12878!](https://raw.githubusercontent.com/HipSTR-Tool/HipSTR-tutorial/master/viz_NA12878.png)
 The first group of reads support the -8bp allele, while the second groups supports the +4bp allele.
